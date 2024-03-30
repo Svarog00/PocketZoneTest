@@ -1,25 +1,39 @@
-using System.Collections;
-using System.Collections.Generic;
+using Assets._Code.Interfaces;
+using Assets._Code.Utilities;
 using UnityEngine;
 
-public class BulletObject : MonoBehaviour
+namespace Assets._Code.Player.Weapon
 {
-    [SerializeField] private float _speed;
-
-    private Vector2 _direction;
-
-    private void Update()
+    public class BulletObject : MonoBehaviour, IPoolable<BulletObject>
     {
-        transform.Translate(_direction * _speed * Time.deltaTime);
-    }
+        [SerializeField] private float _speed;
+        private float _damage;
 
-    public void SetDirection(Vector2 direction)
-    {
-        _direction = direction;
-    }
+        private Vector2 _direction;
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        
+        public ObjectPool<BulletObject> Pool { get; set; }
+
+        private void Update()
+        {
+            transform.Translate(_direction * _speed * Time.deltaTime);
+        }
+
+        public void SetDirection(Vector2 direction)
+        {
+            _direction = direction;
+        }
+
+        public void SetDamage(float damage)
+            => _damage = damage;
+
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            IDamagable target;
+            if (collision.tag == "Enemy" && collision.TryGetComponent(out target))
+            {
+                target.Damage(_damage);
+                Pool.Release(this);
+            }
+        }
     }
 }

@@ -3,27 +3,30 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UI_ItemButton : MonoBehaviour
+namespace Assets._Code.UI
 {
-    [SerializeField] private TMP_Text _countText;
-    [SerializeField] private Image _image;
-
-    private int _count;
-    private PlayerInventory _inventory;
-
-    public void Initialize(int count, PlayerInventory inventory, Sprite image)
+    public class UI_ItemButton : MonoBehaviour
     {
-        _count = count;
-        _inventory = inventory;
-        _image.sprite = image;
+        [SerializeField] private TMP_Text _countText;
+        [SerializeField] private Image _image;
 
-        if (_count > 1)
+        private int _count;
+        private PlayerInventory _inventory;
+
+        public void Initialize(int count, PlayerInventory inventory, Sprite image)
         {
-            _countText.text = _count.ToString();
-        }
-        else
-        {
-            _countText.gameObject.SetActive(false);
+            _count = count;
+            _inventory = inventory;
+            _image.sprite = image;
+
+            if (_count > 1)
+            {
+                _countText.text = _count.ToString();
+            }
+            else
+            {
+                _countText.gameObject.SetActive(false);
+            }
         }
     }
 }

@@ -1,5 +1,7 @@
 using Assets._Code.Characters;
 using Assets._Code.Interfaces;
+using Assets._Code.Player.Weapon;
+using Assets._Code.UI;
 using UnityEngine;
 
 namespace Assets._Code.Player
@@ -8,7 +10,7 @@ namespace Assets._Code.Player
     {
         [SerializeField] private UI_Joystick _joystick;
         [SerializeField] private CharacterMovement _playerMovement;
-        [SerializeField] private Weapon _weapon;
+        [SerializeField] private WeaponBase _weapon;
 
         private IInputService _inputService;
 

@@ -52,5 +52,29 @@ namespace Assets._Code.Player.Inventory
                 }
             }
         }
+
+        public void DecreaseItemCount(ItemData item)
+        {
+            foreach (var itemData in _items)
+            {
+                if (itemData.Item.Equals(item))
+                {
+                    itemData.Count--;
+                    if (itemData.Count == 0)
+                    {
+                        _items.Remove(itemData);
+                    }
+                    return;
+                }
+            }
+        }
+        
+        public void ClearInventory()
+        {
+            if (_items.Count == 0)
+                return;
+
+            _items.Clear();
+        }
     }
 }

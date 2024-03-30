@@ -23,7 +23,7 @@ namespace Assets._Code.Characters
             OnHealthChanged?.Invoke(this, new OnHealthChangedEventArgs { CurrentHealth = _currentHealth / _maxHealth });
         }
 
-        public void Damage(int damage)
+        public void Damage(float damage)
         {
             _currentHealth -= damage;
             OnHealthChanged?.Invoke(this, new OnHealthChangedEventArgs { CurrentHealth = _currentHealth / _maxHealth });
@@ -31,6 +31,13 @@ namespace Assets._Code.Characters
             {
                 ProcessDeath();
             }
+        }
+
+        public void SetHealth(float health)
+        {
+            _currentHealth = Math.Clamp(_currentHealth, health, _maxHealth);
+
+            OnHealthChanged?.Invoke(this, new OnHealthChangedEventArgs { CurrentHealth = _currentHealth / _maxHealth });
         }
 
         private void ProcessDeath()

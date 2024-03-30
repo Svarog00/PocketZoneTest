@@ -6,6 +6,6 @@ namespace Assets._Code.Interfaces
     {
         EventHandler<OnHealthChangedEventArgs> OnHealthChanged { get; set; }
 
-        void Damage(int damage);
+        void Damage(float damage);
     }
 }

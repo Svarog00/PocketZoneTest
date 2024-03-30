@@ -30,14 +30,53 @@ namespace Assets._Code.Player.Inventory
             _model.RemoveItem(item);
         }
 
+        public void DecreaseItem(int id)
+        {
+            var item = _itemDatabase.GetItem(id);
+            _model.DecreaseItemCount(item);
+        }
+
         public IEnumerable<ItemInventoryData> GetItems()
         {
             return _model.Items;
         }
 
+        public List<int> GetItemsId()
+        {
+            var newList = new List<int>();
+            foreach (var item in _model.Items)
+            {
+                newList.Add(item.Item.Id);
+            }
+
+            return newList;
+        }
+
+        public bool TryGetItem(int id, out ItemInventoryData item)
+        {
+            if (GetItem(id) == null)
+            {
+                item = null;
+                return false;
+            }
+
+            item = GetItem(id);
+            return true;
+        }
+
         public ItemInventoryData GetItem(int id)
         {
             return _model.Items.Find((item) => item.Item.Id == id);
+        }
+
+        public void LoadItems(List<int> items)
+        {
+            _model.ClearInventory();
+
+            foreach (int id in items)
+            {
+                AddItem(id);
+            }
         }
     }
 }

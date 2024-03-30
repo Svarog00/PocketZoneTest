@@ -3,53 +3,56 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UI_Joystick : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointerDownHandler, IEndDragHandler, IInputService
+namespace Assets._Code.UI
 {
-    [SerializeField] private Image _backgroundImage;
-    [SerializeField] private Image _handle;
-    [SerializeField] private float _moveBorder;
-
-    private Vector3 _inputDirection;
-
-    public Vector3 InputDirection => _inputDirection;
-
-    public void OnDrag(PointerEventData eventData)
+    public class UI_Joystick : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointerDownHandler, IEndDragHandler, IInputService
     {
-        Vector2 offset = Vector2.zero;
-        float backgroundSizeX = _backgroundImage.rectTransform.sizeDelta.x;
-        float backgroundSizeY = _backgroundImage.rectTransform.sizeDelta.y;
+        [SerializeField] private Image _backgroundImage;
+        [SerializeField] private Image _handle;
+        [SerializeField] private float _moveBorder;
 
-        if(RectTransformUtility
-            .ScreenPointToLocalPointInRectangle(_backgroundImage.rectTransform, eventData.position, null, out offset) == true)
+        private Vector3 _inputDirection;
+
+        public Vector3 InputDirection => _inputDirection;
+
+        public void OnDrag(PointerEventData eventData)
         {
-            offset.x /= backgroundSizeX;
-            offset.y /= backgroundSizeY;
-            _inputDirection = offset;
-            _inputDirection = _inputDirection.magnitude > 1 ? _inputDirection.normalized : _inputDirection;
+            Vector2 offset = Vector2.zero;
+            float backgroundSizeX = _backgroundImage.rectTransform.sizeDelta.x;
+            float backgroundSizeY = _backgroundImage.rectTransform.sizeDelta.y;
 
-            _handle.rectTransform.anchoredPosition = 
-                new Vector2(_inputDirection.x * (backgroundSizeX/_moveBorder), _inputDirection.y *  (backgroundSizeY / _moveBorder));
+            if (RectTransformUtility
+                .ScreenPointToLocalPointInRectangle(_backgroundImage.rectTransform, eventData.position, null, out offset) == true)
+            {
+                offset.x /= backgroundSizeX;
+                offset.y /= backgroundSizeY;
+                _inputDirection = offset;
+                _inputDirection = _inputDirection.magnitude > 1 ? _inputDirection.normalized : _inputDirection;
+
+                _handle.rectTransform.anchoredPosition =
+                    new Vector2(_inputDirection.x * (backgroundSizeX / _moveBorder), _inputDirection.y * (backgroundSizeY / _moveBorder));
+            }
         }
-    }
 
-    public void OnEndDrag(PointerEventData eventData)
-    {
-        ResetJoysyick();
-    }
+        public void OnEndDrag(PointerEventData eventData)
+        {
+            ResetJoysyick();
+        }
 
-    public void OnPointerDown(PointerEventData eventData)
-    {
-       OnDrag(eventData);
-    }
+        public void OnPointerDown(PointerEventData eventData)
+        {
+            OnDrag(eventData);
+        }
 
-    public void OnPointerUp(PointerEventData eventData)
-    {
-        ResetJoysyick();
-    }
-    private void ResetJoysyick()
-    {
-        _handle.transform.localPosition = Vector3.zero;
-        _inputDirection = Vector3.zero;
-    }
+        public void OnPointerUp(PointerEventData eventData)
+        {
+            ResetJoysyick();
+        }
+        private void ResetJoysyick()
+        {
+            _handle.transform.localPosition = Vector3.zero;
+            _inputDirection = Vector3.zero;
+        }
 
+    }
 }
