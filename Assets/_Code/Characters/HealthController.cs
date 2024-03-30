@@ -8,6 +8,7 @@ namespace Assets._Code.Characters
 {
     public class HealthController : MonoBehaviour, IDamagable
     {
+        public Action OnCharacterDeath;
         public EventHandler<OnHealthChangedEventArgs> OnHealthChanged { get; set; }
 
         [SerializeField] private float _maxHealth;
@@ -42,6 +43,7 @@ namespace Assets._Code.Characters
 
         private void ProcessDeath()
         {
+            OnCharacterDeath?.Invoke();
             gameObject.SetActive(false);
         }
     }
