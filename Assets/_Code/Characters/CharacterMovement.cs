@@ -21,8 +21,6 @@ namespace Assets._Code.Characters
         public void SetDirection(Vector3 direction)
         {
             SetDirection(direction.x, direction.y);
-
-
         }
 
         public void SetDirection(float x, float y)
