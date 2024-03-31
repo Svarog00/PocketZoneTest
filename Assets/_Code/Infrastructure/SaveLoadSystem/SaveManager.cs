@@ -42,6 +42,11 @@ namespace Assets._Code.Infrastructure.SaveLoadSystem
             _player.transform.position = new Vector2(data.x, data.y);
             _healthController.SetHealth(data.Health);
             _playerInventory.LoadItems(data.Items);
+
+            if (data.Health != 0)
+            {
+                _player.SetActive(true);
+            }
         }
 
         public bool CheckProgressFile() =>
